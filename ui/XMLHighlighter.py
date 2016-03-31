@@ -32,7 +32,10 @@ class XMLHighlighter(QSyntaxHighlighter):
         keyword_format = QTextCharFormat()
         keyword_format.setForeground(Qt.darkMagenta)
 
-        keyword_patterns = ["\\b?xml\\b", "/>", ">", "<"]
+        keyword_patterns = [
+            "\\b?xml\\b", "/>", ">", "<",
+            ";", "\[", "\]", "\(", "\)"
+        ]
 
         self.highlightingRules = [(QRegExp(pattern), keyword_format)
                                   for pattern in keyword_patterns]
@@ -42,18 +45,17 @@ class XMLHighlighter(QSyntaxHighlighter):
         self.highlightingRules.append(
             (QRegExp("\\b[A-Za-z0-9_\-]+(?=[\s/>])"), xml_element_format))
 
-        nominatim_area_format = QTextCharFormat()
-        nominatim_area_format.setFontItalic(True)
-        nominatim_area_format.setFontWeight(QFont.Bold)
-        nominatim_area_format.setForeground(QColor("#FF7C00"))
-        self.highlightingRules.append(
-            (QRegExp("\{\{[A-Za-z0-9:, ]*\}\}"), nominatim_area_format))
-
         xml_attribute_format = QTextCharFormat()
         xml_attribute_format.setFontItalic(True)
         xml_attribute_format.setForeground(QColor("#2020D2"))
         self.highlightingRules.append(
             (QRegExp("\\b[A-Za-z0-9_]+(?=\\=)"), xml_attribute_format))
+
+        oql_attribute_format = QTextCharFormat()
+        oql_attribute_format.setFontItalic(True)
+        oql_attribute_format.setForeground(QColor("#2020D2"))
+        self.highlightingRules.append(
+            (QRegExp("[A-Za-z0-9_]+(?=:)"), oql_attribute_format))
 
         self.value_format = QTextCharFormat()
         self.value_format.setForeground(Qt.red)
@@ -61,10 +63,66 @@ class XMLHighlighter(QSyntaxHighlighter):
         self.value_start_expression = QRegExp("\"")
         self.value_end_expression = QRegExp("\"(?=[\s></])")
 
-        single_line_comment_format = QTextCharFormat()
-        single_line_comment_format.setForeground(Qt.gray)
+        xml_single_line_comment_format = QTextCharFormat()
+        xml_single_line_comment_format.setForeground(Qt.gray)
         self.highlightingRules.append(
-            (QRegExp("<!--[^\n]*-->"), single_line_comment_format))
+            (QRegExp("<!--[^\n]*-->"), xml_single_line_comment_format))
+
+        oql_single_line_comment_format = QTextCharFormat()
+        oql_single_line_comment_format.setForeground(Qt.gray)
+        self.highlightingRules.append(
+            (QRegExp("//[^\n]*"), oql_single_line_comment_format))
+
+        # Multi lines comment
+        self.oql_start_comment = QRegExp("\/\*")
+        self.oql_end_comment = QRegExp('\*\/')
+
+        overpass = QTextCharFormat()
+        overpass.setFontItalic(True)
+        overpass.setFontWeight(QFont.Bold)
+        overpass.setForeground(QColor("#FF7C00"))
+        self.highlightingRules.append(
+            (QRegExp("\{\{[A-Za-z0-9:, ]*\}\}"), overpass))
+
+    def match_multiline(self, text, start_delimiter, end_delimiter, in_state, style):
+        """Do highlighting of multi-line strings. ``delimiter`` should be a
+        ``QRegExp`` for triple-single-quotes or triple-double-quotes, and
+        ``in_state`` should be a unique integer to represent the corresponding
+        state changes when inside those strings. Returns True if we're still
+        inside a multi-line string when this function is finished.
+        """
+        # If inside triple-single quotes, start at 0
+        if self.previousBlockState() == in_state:
+            start = 0
+            add = 0
+        # Otherwise, look for the delimiter on this line
+        else:
+            start = start_delimiter.indexIn(text)
+            # Move past this match
+            add = start_delimiter.matchedLength()
+
+        # As long as there's a delimiter match on this line...
+        while start >= 0:
+            # Look for the ending delimiter
+            end = end_delimiter.indexIn(text, start + add)
+            # Ending delimiter on this line?
+            if end >= add:
+                length = end - start + add + end_delimiter.matchedLength()
+                self.setCurrentBlockState(0)
+            # No; multi-line string
+            else:
+                self.setCurrentBlockState(in_state)
+                length = len(text) - start + add
+            # Apply formatting
+            self.setFormat(start, length, style)
+            # Look for the next match
+            start = end_delimiter.indexIn(text, start + length)
+
+        # Return True if still inside a multi-line string, False otherwise
+        if self.currentBlockState() == in_state:
+            return True
+        else:
+            return False
 
     def highlightBlock(self, text):
         # for every pattern
@@ -109,3 +167,12 @@ class XMLHighlighter(QSyntaxHighlighter):
 
             start_index = self.value_start_expression.indexIn(
                 text, start_index + comment_length)
+
+        # Do multi-line strings
+        self.match_multiline(
+            text,
+            self.oql_start_comment,
+            self.oql_end_comment,
+            1,
+            Qt.gray)
+
