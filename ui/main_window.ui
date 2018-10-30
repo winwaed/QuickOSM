@@ -242,6 +242,13 @@ QListWidget::item::selected {
           </widget>
          </item>
          <item>
+          <widget class="QCheckBox" name="advanced_toolbar">
+           <property name="text">
+            <string>Display the quick query tools in the toolbar. (Need to restart QGIS)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="verticalSpacer">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -268,8 +275,8 @@ QListWidget::item::selected {
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>645</width>
-              <height>592</height>
+              <width>538</width>
+              <height>532</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_9">

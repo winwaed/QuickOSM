@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/main_window.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.10.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -131,6 +131,9 @@ class Ui_ui_main_window(object):
         self.radioButton_outputShape.setObjectName("radioButton_outputShape")
         self.verticalLayout_11.addWidget(self.radioButton_outputShape)
         self.verticalLayout_2.addWidget(self.output_format_option)
+        self.advanced_toolbar = QtWidgets.QCheckBox(self.parameters)
+        self.advanced_toolbar.setObjectName("advanced_toolbar")
+        self.verticalLayout_2.addWidget(self.advanced_toolbar)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_2.addItem(spacerItem1)
         self.stackedWidget.addWidget(self.parameters)
@@ -142,7 +145,7 @@ class Ui_ui_main_window(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 645, 592))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 538, 532))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_9 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_9.setObjectName("verticalLayout_9")
@@ -328,6 +331,7 @@ class Ui_ui_main_window(object):
         self.output_format_option.setTitle(_translate("ui_main_window", "Outputs"))
         self.radioButton_outputJson.setText(_translate("ui_main_window", "GeoJSON (not editable, column\'s name longer)"))
         self.radioButton_outputShape.setText(_translate("ui_main_window", "Shapefile (editable, column\'s name shorter)"))
+        self.advanced_toolbar.setText(_translate("ui_main_window", "Display the quick query tools in the toolbar. (Need to restart QGIS)"))
         self.groupBox_2.setTitle(_translate("ui_main_window", "Realization"))
         self.groupBox_8.setTitle(_translate("ui_main_window", "Translators"))
         self.label_18.setText(_translate("ui_main_window", "<html><head/><body><p>The web-based translating platform <a href=\"https://www.transifex.com/projects/p/gui/\"><span style=\" text-decoration: underline; color:#0057ae;\">Transifex</span></a> is used. It\'s easier for translators.</p></body></html>"))

@@ -82,6 +82,8 @@ class MainWindowDialog(QDialog, Ui_ui_main_window):
         # noinspection PyUnresolvedReferences
         self.radioButton_outputJson.toggled.connect(self.set_output_format)
 
+        self.advanced_toolbar.toggled.connect(self.advanced_toolbar_toogled)
+
         # Set settings about the overpass API
         self.defaultServer = get_setting('defaultOAPI')
         if self.defaultServer:
@@ -123,6 +125,9 @@ class MainWindowDialog(QDialog, Ui_ui_main_window):
     #             break
     #     else:
     #         self.webBrowser.setHtml("<h3>Help not available</h3>")
+
+    def advanced_toolbar_toogled(self):
+        set_setting('advancedToolbar', self.advanced_toolbar.isChecked())
 
     def get_root_help(self):
         """

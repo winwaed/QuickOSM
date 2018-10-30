@@ -42,7 +42,7 @@ from QuickOSM.core.utilities.tools import (
 from QuickOSM.ui.main_window_dialog import MainWindowDialog
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QMenu, QAction, QPushButton
+from qgis.PyQt.QtWidgets import QMenu, QAction, QPushButton, QLineEdit
 from qgis.core import Qgis, QgsCoordinateTransform, \
     QgsCoordinateReferenceSystem, QgsProject
 
@@ -135,6 +135,10 @@ class QuickOSMPlugin(object):
         # Insert in the good order
         self.quickosm_menu.addAction(self.mainWindowAction)
         self.quickosm_menu.addAction(self.josmAction)
+
+        if get_setting('advancedToolbar'):
+            self.key = QLineEdit()
+            self.toolbar.addWidget(self.key)
 
         for server in OVERPASS_SERVERS:
             self.iface.QuickOSM_mainWindowDialog.comboBox_default_OAPI. \
