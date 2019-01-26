@@ -32,6 +32,7 @@ from QuickOSM.core.exceptions import (
     DirectoryOutPutException,
 )
 from QuickOSM.core.parser.osm_parser import OsmParser
+from QuickOSM.core.processing_tools import initialize_processing, process_file
 from QuickOSM.core.utilities.tools import tr
 from QuickOSM.core.utilities.utilities_qgis import display_message_bar
 from QuickOSM.ui.QuickOSMWidget import QuickOSMWidget
@@ -129,12 +130,23 @@ class OsmFileWidget(QuickOSMWidget, Ui_ui_osm_file):
                 raise DirectoryOutPutException
 
             if load_only:
-                osm_parser = OsmParser(
-                    osm_file,
-                    load_only=True,
-                    osm_conf=osm_conf,
-                    layers=output_geometry_types)
-                layers = osm_parser.parse()
+                if Qgis.QGIS_VERSION_INT < 30500:
+                    osm_parser = OsmParser(
+                        osm_file,
+                        load_only=True,
+                        osm_conf=osm_conf,
+                        layers=output_geometry_types)
+                    layers = osm_parser.parse()
+
+                else:
+                    # QGIS 3.6 and above.
+                    # We use the processing toolbox
+                    initialize_processing()
+                    layers = process_file(
+                        osm_file,
+                        load_only=True,
+                        osm_conf=osm_conf,
+                        layers=output_geometry_types)
 
                 for item in list(layers.values()):
                     QgsProject.instance().addMapLayer(item)
