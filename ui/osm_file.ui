@@ -30,11 +30,21 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>571</width>
-        <height>390</height>
+        <width>557</width>
+        <height>402</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If you have a local OSM file, you can open it using this tool. You can select which layers you want to open. QuickOSM can read all OSM keys in the file and will create new layers. Or you can provide a custom OSM configuration file. Read the &lt;a href=&quot;https://www.gdal.org/drv_osm.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;OGR documentation&lt;/span&gt;&lt;/a&gt; how the OSM Conf file works.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
        <item>
         <layout class="QFormLayout" name="formLayout">
          <property name="fieldGrowthPolicy">
@@ -48,77 +58,16 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QgsFileWidget" name="osm_file" native="true"/>
+          <widget class="QgsFileWidget" name="osm_file"/>
          </item>
          <item row="1" column="0">
-          <widget class="QLabel" name="label_3">
+          <widget class="QLabel" name="label_6">
            <property name="text">
-            <string notr="true">Points</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QCheckBox" name="checkBox_points">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
+            <string notr="true">Outputs</string>
            </property>
           </widget>
          </item>
          <item row="2" column="0">
-          <widget class="QLabel" name="label_4">
-           <property name="text">
-            <string notr="true">Lines</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QCheckBox" name="checkBox_lines">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label_5">
-           <property name="text">
-            <string notr="true">Multilinestrings</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QCheckBox" name="checkBox_multilinestrings">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
-          <widget class="QLabel" name="label_6">
-           <property name="text">
-            <string notr="true">Multipolygons</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1">
-          <widget class="QCheckBox" name="checkBox_multipolygons">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="0">
           <widget class="QRadioButton" name="radioButton_allTags">
            <property name="text">
             <string>All tags</string>
@@ -128,12 +77,24 @@
            </property>
           </widget>
          </item>
-         <item row="5" column="1">
+         <item row="2" column="1">
           <widget class="QGroupBox" name="groupBox_file">
            <property name="title">
             <string/>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
             <item>
              <layout class="QFormLayout" name="formLayout_2">
               <item row="0" column="0">
@@ -144,7 +105,7 @@
                </widget>
               </item>
               <item row="0" column="1">
-               <widget class="QgsFileWidget" name="output_directory" native="true"/>
+               <widget class="QgsFileWidget" name="output_directory"/>
               </item>
               <item row="1" column="0">
                <widget class="QLabel" name="label_7">
@@ -161,7 +122,7 @@
            </layout>
           </widget>
          </item>
-         <item row="6" column="0">
+         <item row="3" column="0">
           <widget class="QRadioButton" name="radioButton_osmConf">
            <property name="text">
             <string>OSMConf</string>
@@ -171,8 +132,18 @@
            </property>
           </widget>
          </item>
-         <item row="6" column="1">
-          <widget class="QgsFileWidget" name="osm_conf" native="true"/>
+         <item row="3" column="1">
+          <widget class="QgsFileWidget" name="osm_conf"/>
+         </item>
+         <item row="1" column="1">
+          <widget class="CheckableOutputsComboBox" name="comboBox_ouputs">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -220,9 +191,22 @@
   <customwidget>
    <class>QgsFileWidget</class>
    <extends>QWidget</extends>
-   <header>qgis.gui</header>
+   <header>qgsfilewidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CheckableOutputsComboBox</class>
+   <extends>QComboBox</extends>
+   <header location="global">QuickOSM.ui.custom_widgets</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>comboBox_ouputs</tabstop>
+  <tabstop>radioButton_allTags</tabstop>
+  <tabstop>lineEdit_filePrefix</tabstop>
+  <tabstop>radioButton_osmConf</tabstop>
+  <tabstop>pushButton_runQuery</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

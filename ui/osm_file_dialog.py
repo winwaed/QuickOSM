@@ -112,7 +112,7 @@ class OsmFileWidget(QuickOSMWidget, Ui_ui_osm_file):
         load_only = self.radioButton_osmConf.isChecked()
 
         # Which geometry at the end ?
-        output_geometry_types = self.get_output_geometry_types()
+        output_geometry_types = self.comboBox_ouputs.checkedItems()
 
         try:
             if not output_geometry_types:

@@ -134,44 +134,6 @@ class QuickOSMWidget(QWidget):
             elif current in ['canvas', 'attributes']:
                 self.stacked_query_type.setCurrentIndex(2)
 
-    def get_output_geometry_types(self):
-        """
-        Get all checkbox about outputs and return a list
-
-        @rtype: list
-        @return: list of layers
-        """
-        output_geom_types = []
-        if self.checkBox_points.isChecked():
-            output_geom_types.append('points')
-        if self.checkBox_lines.isChecked():
-            output_geom_types.append('lines')
-        if self.checkBox_multilinestrings.isChecked():
-            output_geom_types.append('multilinestrings')
-        if self.checkBox_multipolygons.isChecked():
-            output_geom_types.append('multipolygons')
-        return output_geom_types
-
-    def get_white_list_values(self):
-        """
-        Get all line edits about columns for each layers and return a dic
-
-        @rtype: dic
-        @return: doc of layers with columns
-        """
-        white_list_values = {}
-        if self.checkBox_points.isChecked():
-            white_list_values['points'] = self.lineEdit_csv_points.text()
-        if self.checkBox_lines.isChecked():
-            white_list_values['lines'] = self.lineEdit_csv_lines.text()
-        if self.checkBox_multilinestrings.isChecked():
-            white_list_values['multilinestrings'] = \
-                self.lineEdit_csv_multilinestrings.text()
-        if self.checkBox_multipolygons.isChecked():
-            white_list_values['multipolygons'] = \
-                self.lineEdit_csv_multipolygons.text()
-        return white_list_values
-
     def get_bounding_box(self):
         """
         Get the geometry of the bbox in WGS84

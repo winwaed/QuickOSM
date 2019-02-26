@@ -239,146 +239,15 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_3">
-            <item>
-             <layout class="QFormLayout" name="formLayout_3">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_7">
-                <property name="text">
-                 <string notr="true">Node</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QCheckBox" name="checkBox_node">
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_8">
-                <property name="text">
-                 <string notr="true">Way</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QCheckBox" name="checkBox_way">
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_9">
-                <property name="text">
-                 <string notr="true">Relation</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QCheckBox" name="checkBox_relation">
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QFormLayout" name="formLayout_4">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_10">
-                <property name="text">
-                 <string notr="true">Points</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QCheckBox" name="checkBox_points">
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QCheckBox" name="checkBox_lines">
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_11">
-                <property name="text">
-                 <string notr="true">Lines</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="label_12">
-                <property name="text">
-                 <string notr="true">Multipolygons</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QCheckBox" name="checkBox_multipolygons">
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_14">
-                <property name="text">
-                 <string notr="true">Multilinestrings</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QCheckBox" name="checkBox_multilinestrings">
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </item>
-          <item>
            <layout class="QFormLayout" name="formLayout_2">
-            <item row="0" column="0">
+            <item row="2" column="0">
              <widget class="QLabel" name="label_5">
               <property name="text">
                <string>Timeout</string>
               </property>
              </widget>
             </item>
-            <item row="0" column="1">
+            <item row="2" column="1">
              <widget class="QSpinBox" name="spinBox_timeout">
               <property name="buttonSymbols">
                <enum>QAbstractSpinBox::UpDownArrows</enum>
@@ -394,25 +263,45 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="0">
+            <item row="3" column="0">
              <widget class="QLabel" name="label_4">
               <property name="text">
                <string>Directory</string>
               </property>
              </widget>
             </item>
-            <item row="1" column="1">
+            <item row="3" column="1">
              <widget class="QgsFileWidget" name="output_directory"/>
             </item>
-            <item row="2" column="0">
+            <item row="4" column="0">
              <widget class="QLabel" name="label_6">
               <property name="text">
                <string>File prefix</string>
               </property>
              </widget>
             </item>
-            <item row="2" column="1">
+            <item row="4" column="1">
              <widget class="QLineEdit" name="lineEdit_filePrefix"/>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>OSM objects</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_13">
+              <property name="text">
+               <string>Outputs</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="CheckableOutputsComboBox" name="comboBox_outputs"/>
+            </item>
+            <item row="0" column="1">
+             <widget class="CheckableOsmObjectsComboBox" name="comboBox_osm_objects"/>
             </item>
            </layout>
           </item>
@@ -500,28 +389,33 @@
    <extends>QComboBox</extends>
    <header>qgsmaplayercombobox.h</header>
   </customwidget>
+  <customwidget>
+   <class>CheckableOsmObjectsComboBox</class>
+   <extends>QComboBox</extends>
+   <header>QuickOSM.ui.custom_widgets</header>
+  </customwidget>
+  <customwidget>
+   <class>CheckableOutputsComboBox</class>
+   <extends>QComboBox</extends>
+   <header>QuickOSM.ui.custom_widgets</header>
+  </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>pushButton_mapFeatures</tabstop>
   <tabstop>comboBox_key</tabstop>
   <tabstop>comboBox_value</tabstop>
   <tabstop>cb_query_type</tabstop>
   <tabstop>lineEdit_nominatim</tabstop>
   <tabstop>spinBox_distance_point</tabstop>
-  <tabstop>comboBox_extentLayer</tabstop>
   <tabstop>advanced</tabstop>
-  <tabstop>checkBox_node</tabstop>
-  <tabstop>checkBox_way</tabstop>
-  <tabstop>checkBox_relation</tabstop>
-  <tabstop>checkBox_points</tabstop>
-  <tabstop>checkBox_lines</tabstop>
-  <tabstop>checkBox_multilinestrings</tabstop>
-  <tabstop>checkBox_multipolygons</tabstop>
+  <tabstop>comboBox_osm_objects</tabstop>
+  <tabstop>comboBox_outputs</tabstop>
   <tabstop>spinBox_timeout</tabstop>
   <tabstop>lineEdit_filePrefix</tabstop>
   <tabstop>pushButton_showQuery</tabstop>
   <tabstop>pushButton_runQuery</tabstop>
-  <tabstop>scrollArea</tabstop>
-  <tabstop>pushButton_mapFeatures</tabstop>
+  <tabstop>comboBox_extentLayer</tabstop>
  </tabstops>
  <resources/>
  <connections/>

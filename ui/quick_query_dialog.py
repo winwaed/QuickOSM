@@ -32,7 +32,7 @@ from QuickOSM.core.exceptions import (
 from QuickOSM.core.query_factory import QueryFactory
 from QuickOSM.core.utilities.tools import tr
 from QuickOSM.core.utilities.utilities_qgis import display_message_bar
-from QuickOSM.definitions.osm import OsmType, QueryType
+from QuickOSM.definitions.osm import QueryType, OsmType, LayerType
 from QuickOSM.ui.QuickOSMWidget import QuickOSMWidget
 from QuickOSM.ui.quick_query import Ui_ui_quick_query
 from qgis.PyQt.QtCore import Qt
@@ -111,13 +111,8 @@ class QuickQueryWidget(QuickOSMWidget, Ui_ui_quick_query):
         # self.radioButton_place.setChecked(True)
         self.spinBox_distance_point.setValue(1000)
         # self.comboBox_in_around.setCurrentIndex(0)
-        self.checkBox_points.setChecked(True)
-        self.checkBox_lines.setChecked(True)
-        self.checkBox_multilinestrings.setChecked(True)
-        self.checkBox_multipolygons.setChecked(True)
-        self.checkBox_node.setChecked(True)
-        self.checkBox_way.setChecked(True)
-        self.checkBox_relation.setChecked(True)
+        self.comboBox_outputs.selectAllOptions()
+        self.comboBox_osm_objects.selectAllOptions()
         self.spinBox_timeout.setValue(25)
         self.output_directory.lineEdit().setText('')
         self.lineEdit_filePrefix.setText("")
@@ -148,22 +143,6 @@ class QuickQueryWidget(QuickOSMWidget, Ui_ui_quick_query):
         self.comboBox_value.setCompleter(values_completer)
         self.comboBox_value.addItems(current_values)
 
-    def _get_osm_objects(self):
-        """
-        Get a list of osm objects from checkbox
-
-        @return: list of osm objects to query on
-        @rtype: list
-        """
-        osm_objects = []
-        if self.checkBox_node.isChecked():
-            osm_objects.append(OsmType.Node)
-        if self.checkBox_way.isChecked():
-            osm_objects.append(OsmType.Way)
-        if self.checkBox_relation.isChecked():
-            osm_objects.append(OsmType.Relation)
-        return osm_objects
-
     def run_query(self):
         """
         Process for running the query
@@ -189,10 +168,12 @@ class QuickQueryWidget(QuickOSMWidget, Ui_ui_quick_query):
         distance = self.spinBox_distance_point.value()
 
         # Which geometry at the end ?
-        output_geometry_types = self.get_output_geometry_types()
+        output_geometry_types = self.comboBox_outputs.checkedItems()
+        output_geometry_types = [LayerType(i) for i in output_geometry_types]
 
         # Which osm objects ?
-        osm_objects = self._get_osm_objects()
+        osm_objects = self.comboBox_osm_objects.checkedItems()
+        osm_objects = [OsmType(i) for i in osm_objects]
 
         try:
             # Test values
@@ -297,17 +278,15 @@ class QuickQueryWidget(QuickOSMWidget, Ui_ui_quick_query):
             nominatim = None
 
         # Which osm objects ?
-        osm_objects = self._get_osm_objects()
+        osm_objects = self.comboBox_osm_objects.checkedItems()
+        osm_objects = [OsmType(item) for item in osm_objects]
 
         # Which geometry at the end ?
-        query_widget.checkBox_points.setChecked(
-            self.checkBox_points.isChecked())
-        query_widget.checkBox_lines.setChecked(
-            self.checkBox_lines.isChecked())
-        query_widget.checkBox_multilinestrings.setChecked(
-            self.checkBox_multilinestrings.isChecked())
-        query_widget.checkBox_multipolygons.setChecked(
-            self.checkBox_multipolygons.isChecked())
+        query_widget.comboBox_outputs.deselectAllOptions()
+        outputs = self.comboBox_outputs.checkedItems()
+        for output in outputs:
+            index = query_widget.comboBox_outputs.findData(output)
+            query_widget.comboBox_outputs.setItemCheckState(index, Qt.Checked)
 
         # What kind of extent query
         # query_widget.radioButton_extentLayer.setChecked(
